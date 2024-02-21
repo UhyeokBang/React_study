@@ -4,12 +4,12 @@ import MyFooter from './MyFooter';
 
 
 function App() {
+  let name = "방우혁";
   return (
     <div className="App">
-      <MyHeader />
-      <header className="App-header">
-        <h2>안녕 리액트</h2>
-      </header>
+      <MyHeader />  
+        <h2>안녕 리액트 {name}</h2>
+        <b id="bold_text">React.js</b>
       <MyFooter />
     </div>
   );
