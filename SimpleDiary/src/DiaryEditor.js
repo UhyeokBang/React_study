@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./App.css";
 
 const DiaryEditor = () => {
   const [state, setState] = useState({
@@ -12,6 +13,10 @@ const DiaryEditor = () => {
       [e.target.name]: e.target.value,
     });
   };
+  const handleSubmit = () => {
+    console.log(state);
+    alert("저장 성공");
+  };
   return (
     <div className="DiaryEditor">
       <h2>오늘의 일기</h2>
@@ -19,7 +24,7 @@ const DiaryEditor = () => {
         <input
           name="author"
           vlaue={state.author}
-          onchange={handleChangeState}
+          onChange={handleChangeState}
         ></input>
       </div>
       <div>
@@ -41,6 +46,9 @@ const DiaryEditor = () => {
           <option value={4}>4</option>
           <option value={5}>5</option>
         </select>
+      </div>
+      <div>
+        <button onClick={handleSubmit}>일기 저장하기</button>
       </div>
     </div>
   );
