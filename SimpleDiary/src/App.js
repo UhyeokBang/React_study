@@ -28,6 +28,7 @@ import { useState, useRef } from "react";
 function App() {
   const dataId = useRef(0);
   const [data, setData] = useState([]);
+
   const onCreate = (author, content, emotion) => {
     const created_date = new Date().getTime();
     const newItem = {
@@ -44,10 +45,26 @@ function App() {
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
+  const onEdit = (targetId, localContent) => {
+    setData(
+      data.map((it) =>
+        it.id === targetId ? { ...it, content: localContent } : it
+      )
+    );
+    // let newData = [...data];
+    // newData = newData.map((it) => {
+    //   if (it.id === targetId) {
+    //     const newIt = { ...it, content: localContent };
+    //     return newIt;
+    //   }
+    // });
+    // setData(newData);
+  };
+
   return (
     <div>
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList onDelete={onDelete} diaryList={data} />
+      <DiaryList onEdit={onEdit} onDelete={onDelete} diaryList={data} />
     </div>
   );
 }
