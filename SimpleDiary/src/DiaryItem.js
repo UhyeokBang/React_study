@@ -1,5 +1,7 @@
 import { useState } from "react";
+import DiaryContent from "./DiaryContent.js";
 const DiaryItem = ({
+  onEdit,
   author,
   content,
   created_date,
@@ -7,21 +9,8 @@ const DiaryItem = ({
   id,
   onDelete,
 }) => {
-  const [localContent, setLocalContent] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-
-  const handleRemove = () => {
-    if (window.confirm(`${id}번째 일기를 삭제하시겠습니까?`)) {
-      onDelete(id);
-    }
-  };
-  const handleLocalContent = () => {
-    setLocalContent(localContent);
-  };
-  const handleEdit = () => {
-    setIsEdit(true);
-  };
-
+  const editToggle = () => setIsEdit(!isEdit);
   return (
     <div className="DiaryItem">
       <div className="info">
@@ -31,7 +20,15 @@ const DiaryItem = ({
         <br />
         <span className="date">{new Date(created_date).toLocaleString()}</span>
       </div>
-      {isEdit ? (
+      <DiaryContent
+        onEdit={onEdit}
+        onDelete={onDelete}
+        id={id}
+        isEdit={isEdit}
+        editToggle={editToggle}
+        content={content}
+      />
+      {/* {isEdit ? (
         <>
           <textarea value={localContent} onChange={handleLocalContent} />
         </>
@@ -50,7 +47,7 @@ const DiaryItem = ({
           <button onClick={handleRemove}>삭제하기</button>
           <button onClick={handleEdit}>수정하기</button>
         </>
-      )}
+      )} */}
     </div>
   );
 };

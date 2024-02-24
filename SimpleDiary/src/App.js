@@ -44,10 +44,17 @@ function App() {
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
+  const onEdit = (targetId, localContent) => {
+    setData(
+      data.map((it) =>
+        targetId === it.id ? { ...it, content: localContent } : it
+      )
+    );
+  };
   return (
     <div>
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList onDelete={onDelete} diaryList={data} />
+      <DiaryList onEdit={onEdit} onDelete={onDelete} diaryList={data} />
     </div>
   );
 }
