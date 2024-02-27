@@ -1,33 +1,31 @@
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
-// const dummyList = [
-//   {
-//     id: 1,
-//     author: "방우혁",
-//     content: "hello 1",
-//     emotion: 1,
-//     created_date: new Date().getTime(),
-//   },
-//   {
-//     id: 2,
-//     author: "정도겸",
-//     content: "hello 2",
-//     emotion: 2,
-//     created_date: new Date().getTime(),
-//   },
-//   {
-//     id: 3,
-//     author: "최지우",
-//     content: "hello 3",
-//     emotion: 4,
-//     created_date: new Date().getTime(),
-//   },
-// ];
 function App() {
   const dataId = useRef(0);
   const [data, setData] = useState([]);
+  //https://jsonplaceholder.typicode.com/comments
+  const getData = async () => {
+    const res = await fetch(
+      "https://jsonplaceholder.typicode.com/comments"
+    ).then((res) => res.json());
+
+    const initData = res.slice(0, 20).map((it) => {
+      return {
+        author: it.mail,
+        content: it.body,
+        emotion: Math.floor(Math.random() * 5) + 1,
+        created_date: new Date().getTime(),
+        id: dataId.current++,
+      };
+    });
+    setData(initData);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const onCreate = (author, content, emotion) => {
     const created_date = new Date().getTime();
@@ -51,14 +49,6 @@ function App() {
         it.id === targetId ? { ...it, content: localContent } : it
       )
     );
-    // let newData = [...data];
-    // newData = newData.map((it) => {
-    //   if (it.id === targetId) {
-    //     const newIt = { ...it, content: localContent };
-    //     return newIt;
-    //   }
-    // });
-    // setData(newData);
   };
 
   return (
