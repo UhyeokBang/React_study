@@ -1,19 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // const areEqual = (prevProps, nextProps) => {
 //   return prevProps.content.length === nextProps.content.length;
 // };
 const DiaryItem = ({
   onEdit,
+  onDelete,
   author,
   content,
   created_date,
   emotion,
   id,
-  onDelete,
 }) => {
   const [localContent, setLocalContent] = useState(content);
   const [isEdit, setIsEdit] = useState(false);
   const localContentTextArea = useRef();
+
+  useEffect(() => {
+    console.log(`${id}번째 아이템 렌더`);
+  });
 
   const handleRemove = () => {
     if (window.confirm(`${id}번째 일기를 삭제하시겠습니까?`)) {
@@ -77,4 +81,4 @@ const DiaryItem = ({
   );
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);

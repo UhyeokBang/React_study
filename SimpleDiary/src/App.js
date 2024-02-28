@@ -41,17 +41,18 @@ function App() {
     에 방금 추가한 데이터 한개만 남게 된다. 이걸 방지하기 위해 함수형으로 setData를 한것임.*/
     dataId.current++;
   }, []);
-  const onDelete = (targetId) => {
-    const newDiaryList = data.filter((it) => it.id !== targetId);
-    setData(newDiaryList);
-  };
-  const onEdit = (targetId, localContent) => {
-    setData(
+
+  const onDelete = useCallback((targetId) => {
+    setData((data) => data.filter((it) => it.id !== targetId));
+  }, []);
+
+  const onEdit = useCallback((targetId, localContent) => {
+    setData((data) =>
       data.map((it) =>
         it.id === targetId ? { ...it, content: localContent } : it
       )
     );
-  };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = data.filter((it) => it.emotion >= 3).length;
@@ -60,14 +61,14 @@ function App() {
     return { goodCount, badCount, goodRatio };
   }, [data.length]);
 
-  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+  const { goodCount, goodRatio } = getDiaryAnalysis;
 
   return (
     <div>
       <DiaryEditor onCreate={onCreate} />
       <div>전체일기: {data.length}</div>
       <div>기분 좋은 일기 개수: {goodCount}</div>
-      <div>기분 나쁜 일기 개수: {badCount}</div>
+      <div>기분 나쁜 일기 개수: {data.length - goodCount}</div>
       <div>기분 좋은 일기 비율: {goodRatio}%</div>
       <DiaryList onEdit={onEdit} onDelete={onDelete} diaryList={data} />
     </div>
