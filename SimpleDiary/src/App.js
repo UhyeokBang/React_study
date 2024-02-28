@@ -1,6 +1,7 @@
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useEffect, useState, useRef } from "react";
+import { useMemo, useEffect, useState, useRef } from "react";
+import OptimizeTest from "./OptimizeTest";
 
 function App() {
   const dataId = useRef(0);
@@ -51,9 +52,23 @@ function App() {
     );
   };
 
+  const getDiaryAnalysis = useMemo(() => {
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.legth - goodCount;
+    const goodRatio = (goodCount / data.length) * 100;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]);
+
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+
   return (
     <div>
+      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
+      <div>전체일기: {data.length}</div>
+      <div>기분 좋은 일기 개수: {goodCount}</div>
+      <div>기분 나쁜 일기 개수: {badCount}</div>
+      <div>기분 좋은 일기 비율: {goodRatio}%</div>
       <DiaryList onEdit={onEdit} onDelete={onDelete} diaryList={data} />
     </div>
   );
