@@ -37,6 +37,7 @@ function App() {
       created_date,
     };
     setData((data) => [newItem, ...data]);
+    //중요한점은 매개변수로 받는 인자여야만 최신상태로 받을 수 있는것이다.
     /*setData([newItem, ...data]); 이렇게 해버리면 기존 빈배열 data(새로 생성될때 그상태)
     에 방금 추가한 데이터 한개만 남게 된다. 이걸 방지하기 위해 함수형으로 setData를 한것임.*/
     dataId.current++;
