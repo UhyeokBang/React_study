@@ -1,7 +1,6 @@
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useMemo, useEffect, useState, useRef } from "react";
-import OptimizeTest from "./OptimizeTest";
+import { useCallback, useMemo, useEffect, useState, useRef } from "react";
 
 function App() {
   const dataId = useRef(0);
@@ -28,7 +27,7 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = (author, content, emotion) => {
+  const onCreate = useCallback((author, content, emotion) => {
     const created_date = new Date().getTime();
     const newItem = {
       id: dataId.current,
@@ -37,9 +36,11 @@ function App() {
       emotion,
       created_date,
     };
-    setData([newItem, ...data]);
+    setData((data) => [newItem, ...data]);
+    /*setData([newItem, ...data]); 이렇게 해버리면 기존 빈배열 data(새로 생성될때 그상태)
+    에 방금 추가한 데이터 한개만 남게 된다. 이걸 방지하기 위해 함수형으로 setData를 한것임.*/
     dataId.current++;
-  };
+  }, []);
   const onDelete = (targetId) => {
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
@@ -63,7 +64,6 @@ function App() {
 
   return (
     <div>
-      <OptimizeTest />
       <DiaryEditor onCreate={onCreate} />
       <div>전체일기: {data.length}</div>
       <div>기분 좋은 일기 개수: {goodCount}</div>

@@ -1,4 +1,7 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+// const areEqual = (prevProps, nextProps) => {
+//   return prevProps.content.length === nextProps.content.length;
+// };
 const DiaryItem = ({
   onEdit,
   author,
