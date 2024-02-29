@@ -1,11 +1,39 @@
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import { useCallback, useMemo, useEffect, useState, useRef } from "react";
+import { useCallback, useMemo, useEffect, useRef, useReducer } from "react";
+
+const reducer = (diaryListData, action) => {
+  switch (action.type) {
+    case "INIT": {
+      return action.data.initData;
+    }
+    case "CREATE": {
+      const created_date = new Date().getTime();
+      return [
+        { id: action.data.id, ...action.data, created_date },
+        ...diaryListData,
+      ];
+    }
+    case "DELETE": {
+      return diaryListData.filter((it) => it.id !== action.data.targetId);
+    }
+    case "EDIT": {
+      return diaryListData.map((it) =>
+        it.id === action.data.targetId
+          ? { ...it, content: action.data.localContent }
+          : it
+      );
+    }
+    default: {
+      return diaryListData;
+    }
+  }
+};
 
 function App() {
   const dataId = useRef(0);
-  const [data, setData] = useState([]);
-  //https://jsonplaceholder.typicode.com/comments
+  const [data, dispatch] = useReducer(reducer, []);
+
   const getData = async () => {
     const res = await fetch(
       "https://jsonplaceholder.typicode.com/comments"
@@ -20,7 +48,7 @@ function App() {
         id: dataId.current++,
       };
     });
-    setData(initData);
+    dispatch({ type: "INIT", data: { initData } });
   };
 
   useEffect(() => {
@@ -28,15 +56,11 @@ function App() {
   }, []);
 
   const onCreate = useCallback((author, content, emotion) => {
-    const created_date = new Date().getTime();
-    const newItem = {
-      id: dataId.current,
-      author,
-      content,
-      emotion,
-      created_date,
-    };
-    setData((data) => [newItem, ...data]);
+    dispatch({
+      type: "CREATE",
+      data: { id: dataId.current, author, content, emotion },
+    });
+    //setData((data) => [newItem, ...data]);
     //중요한점은 매개변수로 받는 인자여야만 최신상태로 받을 수 있는것이다.
     /*setData([newItem, ...data]); 이렇게 해버리면 기존 빈배열 data(새로 생성될때 그상태)
     에 방금 추가한 데이터 한개만 남게 된다. 이걸 방지하기 위해 함수형으로 setData를 한것임.*/
@@ -44,15 +68,12 @@ function App() {
   }, []);
 
   const onDelete = useCallback((targetId) => {
-    setData((data) => data.filter((it) => it.id !== targetId));
+    dispatch({ type: "DELETE", data: { targetId } });
+    // setData((data) => data.filter((it) => it.id !== targetId));
   }, []);
 
   const onEdit = useCallback((targetId, localContent) => {
-    setData((data) =>
-      data.map((it) =>
-        it.id === targetId ? { ...it, content: localContent } : it
-      )
-    );
+    dispatch({ type: "EDIT", data: { targetId, localContent } });
   }, []);
 
   const getDiaryAnalysis = useMemo(() => {
