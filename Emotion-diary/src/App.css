@@ -1,102 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Yeon+Sung&display=swap");
-
-body {
-  background-color: #f6f6f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Nanum Pen Script";
-  min-height: 100vh;
-  margin: 0px;
-}
-
-@media (min-width: 650px) {
-  .App {
-    width: 640px;
-  }
-}
-
-@media (max-width: 650px) {
-  .App {
-    width: 90vw;
-  }
-}
-
 #root {
-  background-color: white;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-.App {
-  font-family: "Nanum Pen Script";
-  min-height: 100vh;
-  padding-left: 20px;
-  padding-right: 20px;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
 }
-/*  MyButton  */
-
-.MyButton {
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-
-  font-size: 18px;
-
-  white-space: nowrap;
-  font-family: "Nanum Pen Script";
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.MyButton_default {
-  background-color: #ececec;
-  color: black;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.MyButton_positive {
-  background-color: #64c964;
-  color: white;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-.MyButton_negative {
-  background-color: #fd565f;
-  color: white;
+.card {
+  padding: 2em;
 }
 
-/* HEADER */
-
-header {
-  padding-top: 20px;
-  padding-bottom: 20px;
-
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid #e2e2e2;
-}
-
-header > div {
-  display: flex;
-}
-
-header .head_text {
-  width: 50%;
-  font-size: 25px;
-  justify-content: center;
-}
-
-header .head_btn_left {
-  width: 25%;
-  justify-content: start;
-}
-
-header .head_btn_right {
-  width: 25%;
-  justify-content: end;
-}
-
-header button {
-  font-family: "Nanum Pen Script";
+.read-the-docs {
+  color: #888;
 }
