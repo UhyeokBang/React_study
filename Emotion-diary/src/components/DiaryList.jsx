@@ -1,5 +1,5 @@
-import Button from "./Button";
 import "./DiaryList.css";
+import Button from "./Button";
 import DiaryItem from "./DiaryItem";
 
 const DiaryList = () => {
