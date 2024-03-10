@@ -14,14 +14,17 @@
   width: 50%;
   font-size: 25px;
   justify-content: center;
+  font-weight: bolder;
 }
 
 .Header .header_left {
   width: 25%;
   justify-content: flex-start;
+  font-weight: bold;
 }
 
 .Header .header_right {
   width: 25%;
   justify-content: flex-end;
+  font-weight: bold;
 }
