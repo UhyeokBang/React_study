@@ -32,7 +32,6 @@ const Home = () => {
 
   const data = useContext(DiaryStateContext);
   const monthlyData = getMonthlyData(pivotDate, data);
-  console.log(monthlyData);
 
   const onIncreaseMonth = () => {
     setPivotDate(new Date(pivotDate.getFullYear(), pivotDate.getMonth() + 1));
